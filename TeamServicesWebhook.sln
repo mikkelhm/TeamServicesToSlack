@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27309.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamServicesToSlack", "TeamServicesToSlack\TeamServicesToSlack.csproj", "{13C743D3-A8D9-41BB-9DD7-01D4278A5D93}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{13C743D3-A8D9-41BB-9DD7-01D4278A5D93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13C743D3-A8D9-41BB-9DD7-01D4278A5D93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13C743D3-A8D9-41BB-9DD7-01D4278A5D93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13C743D3-A8D9-41BB-9DD7-01D4278A5D93}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {338FBA0E-8973-4588-B78E-29C9032C1688}
+	EndGlobalSection
+EndGlobal
