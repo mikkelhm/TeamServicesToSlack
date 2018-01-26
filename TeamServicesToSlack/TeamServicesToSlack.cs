@@ -37,18 +37,18 @@ namespace TeamServicesToSlack
             var detailedMessage = request.DetailedMessage.text;
             // important - get this data
             var resourceLink = request.Resource.url;
-            var changesData = await GetResourceReport($"{resourceLink}/changes");
+            var changesData = await GetVstsResource($"{resourceLink}/changes");
             var changes = JsonConvert.DeserializeObject<Changes>(changesData);
             var changesCount = changes.count;
             var changesText = "";
             foreach (var change in changes.value)
             {
                 changesText +=
-                    $"<{change.displayUri}|{change.id.Substring(0, 7)}> Authored by *{change.Author.displayName}*\n";
+                    $"<{change.displayUri}|{change.message}> by *{change.Author.displayName}*\n";
                 if (!simple)
                     changesText += $"{change.message}\n\n";
             }
-            var resource = await GetResourceReport(resourceLink);
+            var resource = await GetVstsResource(resourceLink);
             var resourceData = JsonConvert.DeserializeObject<ResourceDetails>(resource);
             var projectName = resourceData.Project.Name;
             var buildLink = resourceData._Links.Web.Href;
@@ -58,12 +58,16 @@ namespace TeamServicesToSlack
             var definitionName = request.Resource.definition.name;
             var gitUrl = $"{repository.Replace(".git", "")}/commit/{sourceVersion}";
 
-            var slackService = new SlackService(log, KeyManager.GetSecret("SlackWebhookUrl");
+            var timeline = await GetVstsResource(resourceData._Links.Timeline.Href);
+            var timeLineData = JsonConvert.DeserializeObject<Timeline>(timeline);
+            var failingTask = timeLineData.Records.FirstOrDefault(x => x.Result == "failed");
+
+            var slackService = new SlackService(log, KeyManager.GetSecret("SlackWebhookUrl"));
             var model = new SlackMessageModel
             {
                 username = "The VSTS detective",
                 icon_emoji = ":vsts:",
-                text = $"*{projectName}/{definitionName} - Build failed*",
+                text = $"*{projectName}/{definitionName} - {failingTask.Name} failed*",
                 channel = channel,
                 attachments = new List<SlackMessageModel.SlackAttachment>()
                 {
@@ -112,7 +116,7 @@ namespace TeamServicesToSlack
             return new OkObjectResult("");
         }
 
-        public static async Task<string> GetResourceReport(string url)
+        public static async Task<string> GetVstsResource(string url)
         {
             try
             {
